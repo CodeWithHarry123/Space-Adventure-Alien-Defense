@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Defender - Space Shooter Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-rocket"></i> GALAXY DEFENDER</h1>
+            <p class="subtitle">Defend Earth from alien invasion in this epic space battle!</p>
+        </header>
+
+        <div class="game-area">
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-heart"></i> Health:</span>
+                    <div class="health-bar">
+                        <div class="health-fill" id="health-fill"></div>
+                    </div>
+                    <span class="stat-value" id="health-value">100</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-bullseye"></i> Score:</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-skull-crossbones"></i> Enemies:</span>
+                    <span class="stat-value" id="enemies">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-bolt"></i> Level:</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+            </div>
+
+            <div class="game-container">
+                <canvas id="gameCanvas" width="800" height="500"></canvas>
+                <div class="controls">
+                    <div class="control-info">
+                        <h3><i class="fas fa-gamepad"></i> Controls</h3>
+                        <p><span class="key">← →</span> Move Spaceship</p>
+                        <p><span class="key">SPACE</span> Fire Laser</p>
+                        <p><span class="key">P</span> Pause/Resume</p>
+                        <p><span class="key">R</span> Restart Game</p>
+                    </div>
+                    <div class="powerups">
+                        <h3><i class="fas fa-gem"></i> Power-ups</h3>
+                        <div class="powerup-item">
+                            <div class="powerup-icon health"><i class="fas fa-heart"></i></div>
+                            <span>Health Boost</span>
+                        </div>
+                        <div class="powerup-item">
+                            <div class="powerup-icon rapid"><i class="fas fa-bolt"></i></div>
+                            <span>Rapid Fire</span>
+                        </div>
+                        <div class="powerup-item">
+                            <div class="powerup-icon shield"><i class="fas fa-shield-alt"></i></div>
+                            <span>Shield</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Touch Controls -->
+            <div class="mobile-controls">
+                <div class="touch-controls">
+                    <div class="touch-left">
+                        <button class="touch-btn move-left" id="leftBtn">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="touch-center">
+                        <button class="touch-btn fire-btn" id="fireBtn">
+                            <i class="fas fa-bullseye"></i> FIRE
+                        </button>
+                    </div>
+                    <div class="touch-right">
+                        <button class="touch-btn move-right" id="rightBtn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mobile-action-buttons">
+                    <button class="mobile-btn pause-btn" id="mobilePauseBtn">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button class="mobile-btn restart-btn" id="mobileRestartBtn">
+                        <i class="fas fa-redo"></i> Restart
+                    </button>
+                </div>
+                <p class="mobile-note"><i class="fas fa-mobile-alt"></i> Touch controls for mobile devices</p>
+            </div>
+
+            <div class="action-buttons">
+                <button id="startBtn" class="btn btn-start">
+                    <i class="fas fa-play"></i> START GAME
+                </button>
+                <button id="pauseBtn" class="btn btn-pause">
+                    <i class="fas fa-pause"></i> PAUSE
+                </button>
+                <button id="restartBtn" class="btn btn-restart">
+                    <i class="fas fa-redo"></i> RESTART
+                </button>
+                <button id="soundBtn" class="btn btn-sound">
+                    <i class="fas fa-volume-up"></i> SOUND ON
+                </button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> How to Play</h2>
+            <div class="instruction-grid">
+                <div class="instruction">
+                    <div class="instruction-icon"><i class="fas fa-crosshairs"></i></div>
+                    <h3>Destroy Enemies</h3>
+                    <p>Shoot down alien ships to earn points. Each enemy destroyed gives you 10 points.</p>
+                </div>
+                <div class="instruction">
+                    <div class="instruction-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3>Avoid Collisions</h3>
+                    <p>If an enemy hits your spaceship, you lose health. Game over when health reaches zero.</p>
+                </div>
+                <div class="instruction">
+                    <div class="instruction-icon"><i class="fas fa-star"></i></div>
+                    <h3>Collect Power-ups</h3>
+                    <p>Grab floating power-ups to get health, rapid fire, or temporary shields.</p>
+                </div>
+                <div class="instruction">
+                    <div class="instruction-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>Level Up</h3>
+                    <p>Every 100 points advances you to the next level with faster and more enemies.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Created with <i class="fas fa-heart" style="color: #ff4757;"></i> for an amazing gaming experience</p>
+            <p class="footer-note">Use arrow keys to move and spacebar to shoot. Defend the galaxy!</p>
+        </footer>
+    </div>
+
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-skull"></i> GAME OVER</h2>
+            <div class="final-stats">
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <p>Level Reached: <span id="finalLevel">1</span></p>
+                <p>Enemies Destroyed: <span id="finalEnemies">0</span></p>
+            </div>
+            <button id="playAgainBtn" class="btn btn-start">
+                <i class="fas fa-play"></i> PLAY AGAIN
+            </button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
