@@ -536,21 +536,49 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listeners for keyboard
     window.addEventListener('keydown', function(e) {
+        // Prevent default behavior for spacebar and arrow keys to avoid scrolling
+        if (e.key === ' ' || e.key === 'Spacebar' ||
+            ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+            e.preventDefault();
+        }
+        
         game.keys[e.key] = true;
         
         // Pause with P key
         if (e.key === 'p' || e.key === 'P') {
             togglePause();
+            e.preventDefault();
         }
         
         // Restart with R key
         if (e.key === 'r' || e.key === 'R') {
             initGame();
+            e.preventDefault();
         }
     });
     
     window.addEventListener('keyup', function(e) {
         game.keys[e.key] = false;
+        
+        // Also prevent default for arrow keys on keyup
+        if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+    
+    // Add focus to canvas when clicked to ensure keyboard events work
+    canvas.addEventListener('click', function() {
+        this.focus();
+    });
+    
+    // Set tabindex to make canvas focusable
+    canvas.setAttribute('tabindex', '0');
+    canvas.style.outline = 'none'; // Remove focus outline
+    
+    // Also prevent context menu on canvas
+    canvas.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
     });
     
     // Mobile touch controls elements
